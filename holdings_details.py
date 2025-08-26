@@ -52,7 +52,7 @@ def get_ltp(exchange, token, api_session_key):
     if not exchange or not token:
         return None
     url = f"https://integrate.definedgesecurities.com/dart/v1/quotes/{exchange}/{token}"
-    headers = {"Authorization": api_key}
+    headers = {"Authorization": api_session_key}
     try:
         resp = requests.get(url, headers=headers, timeout=5)
         if resp.status_code == 200:
@@ -76,7 +76,7 @@ def get_prev_close(exchange, token, api_session_key):
     from_str = prev_day.strftime("%d%m%Y0000")
     to_str = today.strftime("%d%m%Y%H%M")
     url = f"https://data.definedgesecurities.com/sds/history/{exchange}/{token}/day/{from_str}/{to_str}"
-    headers = {"Authorization": api_key}
+    headers = {"Authorization": api_session_key}
     try:
         resp = requests.get(url, headers=headers, timeout=5)
         if resp.status_code == 200:
@@ -100,7 +100,7 @@ def get_prev_close(exchange, token, api_session_key):
 
 def fetch_candles_definedge(segment, token, from_dt, to_dt, api_key):
     url = f"https://data.definedgesecurities.com/sds/history/{segment}/{token}/day/{from_dt}/{to_dt}"
-    headers = {"Authorization": api_key}
+    headers = {"Authorization": api_session_key}
     resp = requests.get(url, headers=headers)
     if resp.status_code != 200:
         raise Exception(f"API error: {resp.status_code} {resp.text}")
